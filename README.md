@@ -3,7 +3,7 @@
 ### Automated Due Diligence Powered by Gemini 2.5 Flash & Vertex AI
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-blue?style=for-the-badge&logo=vercel)](https://chimerical-swan-69acc2.netlify.app/)
-[![Status](https://img.shields.io/badge/Status-Deployed-success?style=for-the-badge)]()
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b92dac94-d581-4e6e-bbb7-11ede313e3c5/deploy-status)](https://app.netlify.com/projects/cosmic-mousse-3a11cd/deploys)
 [![API](https://img.shields.io/badge/News_Feed-AlphaVantage-orange?style=for-the-badge)]()
 
 > **"From 200-page PDF to strategic insight in under 60 seconds."**
