@@ -1,0 +1,4 @@
+{
+  "name": "Financial Sankey Visualizer",
+  "description": "Upload a financial statement PDF to automatically extract key metrics, perform in-depth analysis (ratios, trends), and generate an interactive Sankey diagram visualizing revenue flow."
+}
