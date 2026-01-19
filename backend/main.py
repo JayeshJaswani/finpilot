@@ -35,6 +35,10 @@ class DCFRequest(BaseModel):
     unit: str = ""
     exchange_rate: Optional[float] = 1.0 # Local to USD rate (e.g. 0.012 for INR)
 
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "Financial Analyser Backend is running"}
+
 @app.post("/calculate-dcf")
 async def calculate_dcf(request: DCFRequest):
     try:

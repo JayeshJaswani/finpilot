@@ -81,7 +81,7 @@ export const ValuationCard: React.FC<ValuationCardProps> = ({
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('http://localhost:8000/calculate-dcf', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/calculate-dcf`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(assumptions)
@@ -100,7 +100,7 @@ export const ValuationCard: React.FC<ValuationCardProps> = ({
 
     const handleDownload = async () => {
         try {
-            const response = await fetch('http://localhost:8000/export-dcf', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/export-dcf`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(assumptions)
