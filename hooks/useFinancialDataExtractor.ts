@@ -14,6 +14,31 @@ if (!API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  retries: number = 3,
+  delay: number = 2000,
+  backoff: number = 2
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (error: any) {
+    const isRateLimit =
+      error.status === 429 ||
+      error.code === 429 ||
+      error.message?.includes("429") ||
+      error.message?.includes("RESOURCE_EXHAUSTED") ||
+      error.message?.includes("Quota exceeded");
+
+    if (retries > 0 && isRateLimit) {
+      console.warn(`Rate limit hit. Retrying in ${delay}ms... (${retries} retries left)`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return retryWithBackoff(fn, retries - 1, delay * backoff, backoff);
+    }
+    throw error;
+  }
+}
+
 const parseJsonResponse = (text: string): AnalysisResult => {
   // The model might wrap the JSON in markdown backticks, or just return raw JSON.
   const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
@@ -47,8 +72,8 @@ export const useFinancialDataExtractor = () => {
 
     const model = 'gemini-2.5-flash';
 
-    onProgress?.("Extracting Financial Data via OCR...", 30);
-    const response = await ai.models.generateContent({
+    onProgress?.("Extracting Financial Data via OCR... (Auto-retry enabled)", 30);
+    const response = await retryWithBackoff(() => ai.models.generateContent({
       model: model,
       contents: [
         {
@@ -68,7 +93,7 @@ export const useFinancialDataExtractor = () => {
         temperature: runtimeConfig.parameters.temperature,
         topP: runtimeConfig.parameters.topP,
       },
-    });
+    }));
 
     onProgress?.("Processing & Validating Response...", 60);
 
