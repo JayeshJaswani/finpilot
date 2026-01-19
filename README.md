@@ -31,6 +31,13 @@ It is designed to solve the "Analyst's Bottleneck"—automating the manual sprea
 ### 4. 📤 Enterprise Workflow Integration
 * **Export Options:** Instantly download analysis as **Excel (.xlsx)**, **CSV**, or **PDF** reports for seamless inclusion in client presentation decks.
 
+### 5. 📉 Automated DCF Valuation Engine
+* **Hybrid Architecture:** Uses a "Judge & Calculator" approach—Gemini extracts qualitative growth assumptions (Bull/Bear/Base cases) from the 10-K, while a deterministic Python engine executes the actual math to prevent hallucination.
+* **Formula-Based Export:** Unlike standard tools that dump static numbers, this feature generates an **Excel (.xlsx) file with live formulas** (e.g., `=Previous_Year * (1 + Growth_Rate)`). This allows analysts to audit the model and tweak assumptions manually.
+* **Sensitivity Analysis:** Automatically calculates Enterprise Value and Equity Value per share under varying WACC and Terminal Growth scenarios.
+
+> **New in v2.0:** The tool now builds **Defensible DCF Models**. It doesn't just give you a stock price; it gives you the *working* Excel file with the formulas that generated it, cutting the time to build a preliminary valuation model by 90%.
+
 ---
 
 ## 🛠️ Tech Stack & Architecture
@@ -40,7 +47,7 @@ It is designed to solve the "Analyst's Bottleneck"—automating the manual sprea
 | **Core AI** | **Gemini 2.5 Flash (Vertex AI)** | Long-context processing for full annual report analysis. |
 | **Live Data** | **AlphaVantage API** | Real-time news fetching and sentiment analysis. |
 | **Frontend** | **React + TypeScript** | Interactive dashboard and Sankey visualization. |
-| **Visualization** | **Python (Matplotlib) / D3** | Graph generation pipeline. |
+| **Visualization** | **Python (Matplotlib) / OpenPyXL / D3** | Graph generation pipeline. |
 | **Export Engine** | **jsPDF / SheetJS** | Client-side generation of Excel/PDF reports. |
 
 ## 📂 Repository Structure
