@@ -16,8 +16,8 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
 
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  retries: number = 3,
-  delay: number = 2000,
+  retries: number = 5,
+  delay: number = 4000,
   backoff: number = 2
 ): Promise<T> {
   try {
