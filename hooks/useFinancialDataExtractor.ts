@@ -79,7 +79,7 @@ export const useFinancialDataExtractor = () => {
     onProgress?.("Initializing AI Models...", 10);
     const base64Data = await fileToBase64(file);
 
-    const model = 'gemini-1.5-flash';
+    const model = 'gemini-2.5-flash';
 
     onProgress?.("Extracting Financial Data via OCR... (Auto-retry enabled)", 30);
     const response = await retryWithBackoff(() => ai.models.generateContent({
