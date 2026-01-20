@@ -23,15 +23,24 @@ async function retryWithBackoff<T>(
   try {
     return await fn();
   } catch (error: any) {
-    const isRateLimit =
+    const isRetryableError =
       error.status === 429 ||
       error.code === 429 ||
+      error.status === 503 ||
+      error.code === 503 ||
+      error.status === 500 ||
+      error.code === 500 ||
+      error.status === 502 ||
+      error.code === 502 ||
       error.message?.includes("429") ||
+      error.message?.includes("503") ||
       error.message?.includes("RESOURCE_EXHAUSTED") ||
-      error.message?.includes("Quota exceeded");
+      error.message?.includes("Quota exceeded") ||
+      error.message?.includes("Service Unavailable") ||
+      error.message?.includes("Internal Server Error");
 
-    if (retries > 0 && isRateLimit) {
-      console.warn(`Rate limit hit. Retrying in ${delay}ms... (${retries} retries left)`);
+    if (retries > 0 && isRetryableError) {
+      console.warn(`Transient error (${error.status || error.code || error.message}). Retrying in ${delay}ms... (${retries} retries left)`);
       await new Promise(resolve => setTimeout(resolve, delay));
       return retryWithBackoff(fn, retries - 1, delay * backoff, backoff);
     }
