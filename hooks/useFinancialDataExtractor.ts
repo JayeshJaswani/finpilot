@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai';
 import { runtimeConfig } from '../resources/financial-data-assistant-93484032/config';
 import { fileToBase64 } from '../utils/fileUtils';
 import { fetchCompanyNews } from '../utils/newsService';
@@ -101,6 +101,12 @@ export const useFinancialDataExtractor = () => {
       config: {
         temperature: runtimeConfig.parameters.temperature,
         topP: runtimeConfig.parameters.topP,
+        safetySettings: [
+          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        ],
       },
     }));
 
